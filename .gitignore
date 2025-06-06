@@ -1,0 +1,39 @@
+# === General ===
+*.log
+*.env
+*.env.*
+*.DS_Store
+*.swp
+
+# === Node.js (Frontend) ===
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.env
+frontend/.env.*
+
+# === Python (Backend) ===
+backend/__pycache__/
+backend/*.py[cod]
+backend/env/
+backend/venv/
+backend/.env
+backend/.env.*
+backend/data/*.BIN
+
+# === IDEs and Editors ===
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# === OS Files ===
+Thumbs.db
+.DS_Store
+
+# === Testing and Coverage ===
+coverage/
+htmlcov/
+*.cover
+*.pyc
+.pytest_cache/

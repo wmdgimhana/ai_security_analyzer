@@ -1,0 +1,559 @@
+import React, { useState } from "react";
+import Sidebar from "../../components/sidebar/Sidebar";
+import {
+  FiUploadCloud,
+  FiShield,
+  FiAlertTriangle,
+  FiBarChart2,
+  FiGlobe,
+  FiClock,
+  FiFileText,
+} from "react-icons/fi";
+import { comprehensiveAnalysis } from "../../functions/logAnalyzer";
+
+const ComprehensiveAnalysis = () => {
+  const [file, setFile] = useState(null);
+  const [fileName, setFileName] = useState("");
+  const [analysisData, setAnalysisData] = useState(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [animateResults, setAnimateResults] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleFileUpload = async (e) => {
+    const selectedFile = e.target.files[0];
+    if (!selectedFile) return;
+
+    setFile(selectedFile);
+    setFileName(selectedFile.name);
+    setIsAnalyzing(false);
+    setAnimateResults(false);
+    setError(null);
+  };
+
+  const handleAnalyze = async () => {
+    if (!file) return;
+
+    setIsAnalyzing(true);
+    setAnimateResults(false);
+    setError(null);
+
+    try {
+      const result = await comprehensiveAnalysis(file);
+      setAnalysisData(result);
+      setIsAnalyzing(false);
+      setTimeout(() => setAnimateResults(true), 100);
+    } catch (error) {
+      console.error("Comprehensive analysis failed:", error);
+      setError(error.message || "Failed to perform comprehensive analysis");
+      setIsAnalyzing(false);
+    }
+  };
+
+  const getSeverityColor = (severity) => {
+    switch (severity) {
+      case "HIGH":
+        return "bg-gradient-to-r from-red-500/20 to-red-600/30 border-red-500/50 text-red-400";
+      case "MEDIUM":
+        return "bg-gradient-to-r from-yellow-500/20 to-orange-500/30 border-yellow-500/50 text-yellow-400";
+      case "LOW":
+        return "bg-gradient-to-r from-green-500/20 to-emerald-500/30 border-green-500/50 text-green-400";
+      default:
+        return "bg-gradient-to-r from-gray-500/20 to-gray-600/30 border-gray-500/50 text-gray-400";
+    }
+  };
+
+  return (
+    <div className="w-screen h-screen flex overflow-x-hidden overflow-y-hidden">
+      <div className="flex-[1] w-full h-full bg-[#1e1f28]">
+        <Sidebar />
+      </div>
+      <div className="flex-[6] w-full h-full bg-[#16171d] overflow-y-auto">
+        <div className="min-h-screen bg-gradient-to-br from-[#0f0f15] via-[#16171d] to-[#1a1b23] text-white p-6">
+          {/* Animated Background Elements */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-[#dd6317]/10 to-orange-600/10 rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-amber-500/10 to-[#dd6317]/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          </div>
+
+          <div className="relative z-10 max-w-6xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-12 animate-fade-in">
+              <h1 className="text-5xl poppins-bold font-bold mb-4 bg-gradient-to-r from-[#dd6317] via-orange-400 to-amber-300 bg-clip-text text-transparent leading-normal pb-1">
+                Comprehensive Security Analysis
+              </h1>
+              <p className="text-gray-400 text-lg poppins-light">
+                Advanced multi-layered security analysis with AI insights
+              </p>
+            </div>
+
+            {/* File Upload Section */}
+            <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm mb-8">
+              <div className="flex items-center gap-3 mb-6">
+                <FiUploadCloud className="text-2xl text-[#dd6317]" />
+                <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
+                  Upload Log File
+                </h2>
+              </div>
+
+              <div className="flex flex-col items-center justify-center py-6">
+                <div className="input-div mb-4">
+                  <input
+                    className="input"
+                    name="file"
+                    type="file"
+                    accept=".log,.txt,.json"
+                    onChange={handleFileUpload}
+                    disabled={isAnalyzing}
+                  />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="1em"
+                    height="1em"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    viewBox="0 0 24 24"
+                    strokeWidth="2"
+                    fill="none"
+                    stroke="currentColor"
+                    className="icon"
+                  >
+                    <polyline points="16 16 12 12 8 16"></polyline>
+                    <line y2="21" x2="12" y1="12" x1="12"></line>
+                    <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+                    <polyline points="16 16 12 12 8 16"></polyline>
+                  </svg>
+                </div>
+
+                <div className="text-center mb-4">
+                  <span className="text-xl text-white font-medium">
+                    {fileName || "Click to upload your log file"}
+                  </span>
+                  <div className="text-sm text-gray-400 mt-2">
+                    Supports .log, .txt, .json files
+                  </div>
+                </div>
+
+                <button
+                  className="px-6 py-3 bg-gradient-to-r from-[#dd6317] to-orange-500 rounded-lg text-white font-semibold hover:from-orange-500 hover:to-[#dd6317] transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleAnalyze}
+                  disabled={!file || isAnalyzing}
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <span>Analyzing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <FiShield />
+                      <span>Run Comprehensive Analysis</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+
+            {/* Error Display */}
+            {error && (
+              <div className="mb-12 animate-fade-in">
+                <div className="bg-gradient-to-br from-red-900/20 via-red-800/20 to-red-900/20 rounded-2xl p-8 border border-red-500/30 shadow-2xl">
+                  <div className="flex items-center gap-3 mb-2">
+                    <FiAlertTriangle className="text-2xl text-red-400" />
+                    <h3 className="text-xl font-semibold text-red-400">
+                      Analysis Error
+                    </h3>
+                  </div>
+                  <p className="text-red-300">{error}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Loading Animation */}
+            {isAnalyzing && (
+              <div className="mb-12 animate-fade-in">
+                <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl">
+                  <div className="flex flex-col items-center gap-6">
+                    <div className="relative">
+                      <div className="w-16 h-16 border-4 border-[#dd6317]/30 border-t-[#dd6317] rounded-full animate-spin"></div>
+                      <FiShield className="absolute inset-0 m-auto text-2xl text-[#dd6317] animate-pulse" />
+                    </div>
+                    <h3 className="text-xl font-semibold poppins-bold">
+                      Running Comprehensive Analysis...
+                    </h3>
+                    <p className="text-gray-400 poppins-light">
+                      This may take a minute as we analyze multiple security
+                      aspects
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Results Section */}
+            {analysisData && !isAnalyzing && (
+              <div
+                className={`space-y-8 transition-all duration-1000 ${
+                  animateResults
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+              >
+                {/* Executive Summary */}
+                <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-2 bg-gradient-to-r from-[#dd6317] to-orange-500 rounded-lg">
+                      <FiShield className="text-xl text-white" />
+                    </div>
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
+                      Executive Summary
+                    </h2>
+                  </div>
+                  <div className="bg-black/20 rounded-xl p-6 border border-white/10">
+                    <div className="text-gray-300 leading-relaxed poppins-medium text-[15px]">
+                      {analysisData.ai_analysis ||
+                        "No executive summary available"}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Threats Section */}
+                <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                  <div className="flex items-center gap-3 mb-6">
+                    <FiAlertTriangle className="text-2xl text-[#dd6317]" />
+                    <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
+                      Threats Detected
+                    </h2>
+                  </div>
+                  <div className="space-y-4">
+                    {analysisData.threats_detected &&
+                    analysisData.threats_detected.length > 0 ? (
+                      analysisData.threats_detected.map((threat, index) => (
+                        <div
+                          key={index}
+                          className={`p-6 rounded-xl ${getSeverityColor(
+                            threat.severity
+                          )} border backdrop-blur-sm transform transition-all duration-500 hover:scale-[1.02] hover:shadow-lg`}
+                          style={{
+                            animationDelay: `${index * 200}ms`,
+                            animation: animateResults
+                              ? "slideInLeft 0.6s ease-out forwards"
+                              : "none",
+                          }}
+                        >
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="font-bold text-lg text-white poppins-regular">
+                              {threat.type.replace(/_/g, " ")}
+                            </div>
+                            <div
+                              className={`px-3 py-1 rounded-full text-xs poppins-light ${getSeverityColor(
+                                threat.severity
+                              )}`}
+                            >
+                              {threat.severity}
+                            </div>
+                          </div>
+                          <p className="text-gray-300 mb-2 poppins-light text-[13px]">
+                            {threat.description}
+                          </p>
+                          <div className="text-sm text-gray-400">
+                            <span className="bg-white/10 px-2 py-1 rounded poppins-medium text-[12px]">
+                              Count: {threat.count}
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-8 text-gray-400">
+                        <FiShield className="text-4xl mx-auto mb-3 text-green-400" />
+                        <p className="text-lg">
+                          No threats detected in the log file
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Framework Mapping Section */}
+                {analysisData.framework_mapping && (
+                  <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-2 bg-gradient-to-r from-blue-500/20 to-blue-600/30 rounded-lg">
+                        <FiShield className="text-xl text-blue-400" />
+                      </div>
+                      <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
+                        Security Framework Mapping
+                      </h2>
+                    </div>
+
+                    {/* MITRE ATT&CK */}
+                    <h3 className="text-xl font-semibold text-white mb-4">
+                      MITRE ATT&CK
+                    </h3>
+                    <div className="space-y-4 mb-8">
+                      {analysisData.framework_mapping.mitre_techniques &&
+                      analysisData.framework_mapping.mitre_techniques.length >
+                        0 ? (
+                        analysisData.framework_mapping.mitre_techniques.map(
+                          (technique, index) => (
+                            <div
+                              key={index}
+                              className={`p-6 rounded-xl ${getSeverityColor(
+                                technique.severity
+                              )} border backdrop-blur-sm transform transition-all duration-500 hover:scale-[1.02] hover:shadow-lg`}
+                            >
+                              <div className="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-4">
+                                <div>
+                                  <div className="font-bold text-lg text-white poppins-regular flex items-center gap-2">
+                                    {technique.technique_id}: {technique.name}
+                                  </div>
+                                  <div className="text-gray-300 mt-2 poppins-light text-sm">
+                                    {technique.description}
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                  <div className="text-center px-3 py-2 bg-black/30 rounded-lg border border-white/5">
+                                    <div className="text-xs text-gray-400">
+                                      Confidence
+                                    </div>
+                                    <div className="text-lg font-bold text-white">
+                                      {Math.round(technique.confidence * 100)}%
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        )
+                      ) : (
+                        <div className="text-center py-4 text-gray-400">
+                          <p>No MITRE ATT&CK techniques identified</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* OWASP Top 10 */}
+                    <h3 className="text-xl font-semibold text-white mb-4">
+                      OWASP Top 10
+                    </h3>
+                    <div className="space-y-4">
+                      {analysisData.framework_mapping.owasp_vulnerabilities &&
+                      analysisData.framework_mapping.owasp_vulnerabilities
+                        .length > 0 ? (
+                        analysisData.framework_mapping.owasp_vulnerabilities.map(
+                          (vuln, index) => (
+                            <div
+                              key={index}
+                              className={`p-6 rounded-xl ${getSeverityColor(
+                                vuln.severity
+                              )} border backdrop-blur-sm transform transition-all duration-500 hover:scale-[1.02] hover:shadow-lg`}
+                            >
+                              <div className="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-4">
+                                <div>
+                                  <div className="font-bold text-lg text-white poppins-regular flex items-center gap-2">
+                                    {vuln.owasp_id}: {vuln.name}
+                                  </div>
+                                  <div className="text-gray-300 mt-2 poppins-light text-sm">
+                                    {vuln.description}
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                  <div className="text-center px-3 py-2 bg-black/30 rounded-lg border border-white/5">
+                                    <div className="text-xs text-gray-400">
+                                      Confidence
+                                    </div>
+                                    <div className="text-lg font-bold text-white">
+                                      {Math.round(vuln.confidence * 100)}%
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        )
+                      ) : (
+                        <div className="text-center py-4 text-gray-400">
+                          <p>No OWASP vulnerabilities identified</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* IP Enrichment Section */}
+                {analysisData.enriched_ips && (
+                  <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                    <div className="flex items-center gap-3 mb-6">
+                      <FiGlobe className="text-2xl text-[#dd6317]" />
+                      <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
+                        IP Enrichment
+                      </h2>
+                    </div>
+
+                    <div className="mb-4 p-4 bg-black/20 rounded-xl border border-white/10">
+                      <div className="flex justify-between items-center">
+                        <div className="text-gray-300 poppins-medium">
+                          <span className="text-[#dd6317]">Total IPs:</span>{" "}
+                          {analysisData.enriched_ips.length || 0}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      {analysisData.enriched_ips.map((ip, index) => (
+                        <div
+                          key={index}
+                          className="p-6 rounded-xl bg-gradient-to-r from-blue-500/10 to-blue-600/20 border border-blue-500/30 backdrop-blur-sm transform transition-all duration-500 hover:scale-[1.02] hover:shadow-lg"
+                        >
+                          <div className="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-4">
+                            <div>
+                              <div className="font-bold text-lg text-white poppins-regular flex items-center gap-2">
+                                {ip.ip}
+                                {ip.geo_data.is_threat && (
+                                  <span className="bg-red-500/20 text-red-400 text-xs px-2 py-1 rounded-full border border-red-500/30">
+                                    Threat
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-gray-300 mt-2 poppins-light text-sm flex items-center gap-2">
+                                <FiMapPin className="text-[#dd6317]" />
+                                {ip.geo_data.country}
+                                {ip.geo_data.city
+                                  ? `, ${ip.geo_data.city}`
+                                  : ""}
+                              </div>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <div className="text-center px-3 py-2 bg-black/30 rounded-lg border border-white/5">
+                                <div className="text-xs text-gray-400">
+                                  Occurrences
+                                </div>
+                                <div className="text-lg font-bold text-white">
+                                  {ip.occurrences}
+                                </div>
+                              </div>
+
+                              {ip.geo_data.threat_score !== null && (
+                                <div className="text-center px-3 py-2 bg-black/30 rounded-lg border border-white/5">
+                                  <div className="text-xs text-gray-400">
+                                    Threat Score
+                                  </div>
+                                  <div className="text-lg font-bold text-white">
+                                    {ip.geo_data.threat_score}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {ip.geo_data.isp && (
+                            <div className="text-sm text-gray-400 mb-2">
+                              <span className="text-[#dd6317]">ISP:</span>{" "}
+                              {ip.geo_data.isp}
+                            </div>
+                          )}
+
+                          {ip.geo_data.threat_type && (
+                            <div className="text-sm text-red-400 mb-2">
+                              <span className="text-[#dd6317]">
+                                Threat Type:
+                              </span>{" "}
+                              {ip.geo_data.threat_type}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Generate Report Button */}
+                <div className="flex justify-center mt-8">
+                  <button
+                    className="px-8 py-4 bg-gradient-to-r from-[#dd6317] to-orange-500 rounded-lg text-white font-semibold hover:from-orange-500 hover:to-[#dd6317] transition-all duration-300 flex items-center gap-2 text-lg"
+                    onClick={() => {
+                      // Navigate to the report page or generate a new report
+                      if (analysisData.report_id) {
+                        window.location.href = `/reports/${analysisData.report_id}`;
+                      }
+                    }}
+                    disabled={!analysisData.report_id}
+                  >
+                    <FiFileText />
+                    <span>View Full Forensic Report</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .animate-fade-in {
+          animation: fadeIn 0.8s ease-out;
+        }
+
+        .input-div {
+          position: relative;
+          width: 200px;
+          height: 200px;
+          border: 2px dashed #dd6317;
+          border-radius: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: rgba(0, 0, 0, 0.2);
+          cursor: pointer;
+          transition: all 0.3s;
+        }
+
+        .input-div:hover {
+          background-color: rgba(221, 99, 23, 0.1);
+        }
+
+        .input {
+          opacity: 0;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+        }
+
+        .icon {
+          width: 50px;
+          height: 50px;
+          color: #dd6317;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default ComprehensiveAnalysis;
