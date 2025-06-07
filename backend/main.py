@@ -50,19 +50,7 @@ except ValueError as e:
     dashboard_service = None
     report_generator = None
 
-@app.get("/")
-async def root():
-    return {
-        "message": "AI Log Security Analyzer API - Pure AI Threat Detection", 
-        "status": "running",
-        "version": "2.0.0",
-        "features": [
-            "AI-powered threat detection",
-            "No hardcoded patterns",
-            "Intelligent pattern recognition",
-            "Comprehensive security analysis"
-        ]
-    }
+
 
 @app.get("/health")
 async def health_check():
@@ -72,38 +60,7 @@ async def health_check():
         "ai_service": "available" if log_analyzer else "unavailable"
     }
 
-@app.post("/analyze/text", response_model=AnalysisResponse)
-async def analyze_log_text(request: LogAnalysisRequest):
-    """Analyze log content directly from text input using AI"""
-    if not log_analyzer:
-        raise HTTPException(
-            status_code=500, 
-            detail="AI Log analyzer not initialized - check GROQ_API_KEY configuration"
-        )
-    
-    try:
-        log_content = request.log_content
-        
-        # Use AI to detect threats 
-        threats = log_analyzer.detect_threats(log_content)
-        
-        # Get comprehensive AI analysis
-        log_sample = log_content[:6000] if len(log_content) > 6000 else log_content
-        ai_analysis = log_analyzer.get_ai_analysis(log_sample)
-        
-        # Calculate AI-based risk level
-        risk_level = log_analyzer.calculate_risk_level(threats)
-        
-        return AnalysisResponse(
-            threats_detected=threats,
-            ai_analysis=ai_analysis,
-            total_lines=len(log_content.splitlines()),
-            analysis_time=datetime.now(),
-            risk_level=risk_level
-        )
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"AI Analysis failed: {str(e)}")
+
 
 @app.post("/analyze/file", response_model=AnalysisResponse)
 async def analyze_log_file(file: UploadFile = File(...)):
@@ -147,49 +104,9 @@ async def analyze_log_file(file: UploadFile = File(...)):
         print(f"❌ Analysis error: {str(e)}")
         raise HTTPException(status_code=500, detail=f"AI Analysis failed: {str(e)}")
 
-@app.post("/analyze/patterns")
-async def analyze_log_patterns(request: LogAnalysisRequest):
-    """Analyze log patterns and identify suspicious behavior using AI"""
-    if not log_analyzer:
-        raise HTTPException(
-            status_code=500, 
-            detail="AI Log analyzer not initialized - check GROQ_API_KEY configuration"
-        )
-    
-    try:
-        log_content = request.log_content
-        
-        # Get AI pattern analysis
-        pattern_analysis = log_analyzer.analyze_log_patterns(log_content)
-        
-        return {
-            "status": "success",
-            "analysis_time": datetime.now(),
-            "pattern_analysis": pattern_analysis
-        }
-        
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Pattern analysis failed: {str(e)}")
 
-@app.post("/upload", response_model=UploadResponse)
-async def upload_file_info(file: UploadFile = File(...)):
-    """Get information about uploaded file without analysis"""
-    try:
-        FileHandler.validate_file(file)
-        _, file_size = await FileHandler.read_file_content(file)
-        
-        return UploadResponse(
-            message="File uploaded successfully - Ready for AI analysis",
-            filename=file.filename,
-            file_size=file_size
-        )
-        
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Upload failed: {str(e)}")
 
-# New endpoints for enhanced features
+
 
 @app.post("/enrich/ips")
 async def enrich_ips_from_logs(request: LogAnalysisRequest):
@@ -288,6 +205,7 @@ async def generate_forensic_report(request: LogAnalysisRequest):
         log_sample = log_content[:6000] if len(log_content) > 6000 else log_content
         ai_analysis = log_analyzer.get_ai_analysis(log_sample)
         
+        
         # Generate report
         report = await report_generator.generate_forensic_report(log_content, threats, ai_analysis)
         
@@ -353,7 +271,7 @@ async def get_api_info():
     """Get information about the AI analyzer capabilities"""
     return {
         "service": "AI Log Security Analyzer",
-        "version": "2.1.0",  # Updated version
+        "version": "1.0.0",  # Updated version
         "ai_powered": True,
         "threat_detection": {
             "method": "AI-based pattern recognition",
@@ -389,7 +307,7 @@ async def get_api_info():
             "Automated security recommendations"  # New feature
         ],
         "supported_formats": [".log", ".txt", ".json"],
-        "ai_model": "Powered by Groq AI"
+        "ai_model": "Powered by Llama 3"
     }
 
 @app.post("/analyze/comprehensive", response_model=None)
@@ -492,6 +410,9 @@ async def comprehensive_analysis(file: UploadFile = File(...)):
                 "priority": technique.severity
             })
         
+        # Generate a forensic report
+        report = await report_generator.generate_forensic_report(log_content, threats, ai_analysis)
+        
         # Combine everything into a single comprehensive response
         comprehensive_result = {
             "status": "success",
@@ -513,10 +434,11 @@ async def comprehensive_analysis(file: UploadFile = File(...)):
             "security_frameworks": framework_mapping,
             "dashboard_data": dashboard_data,
             "threat_actors": threat_actors,
-            "recommendations": recommendations
+            "recommendations": recommendations,
+            "report_id": report.report_id  # Add the report ID to the response
         }
         
-        print(f"✅ Comprehensive analysis complete: {len(threats)} threats detected, {len(enriched_ips)} IPs enriched")
+        print(f"✅ Comprehensive analysis complete: {len(threats)} threats detected, {len(enriched_ips)} IPs enriched, Report ID: {report.report_id}")
         
         return comprehensive_result
         

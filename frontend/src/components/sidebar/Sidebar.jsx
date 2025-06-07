@@ -22,24 +22,15 @@ const Sidebar = () => {
     },
     {
       link: "/analyze-file",
-      name: "Log File Analyze",
+      name: "Basic Analyze",
       icon: <FiFileText className="text-xl" />,
-    },
-    {
-      link: "/ip-enrichment",
-      name: "IP Enrichment",
-      icon: <FiGlobe className="text-xl" />,
-    },
-    {
-      link: "/framework-mapping",
-      name: "Security Frameworks",
-      icon: <FiShield className="text-xl" />,
     },
     {
       link: "/comprehensive",
       name: "Comprehensive Analysis",
       icon: <FiBarChart2 className="text-xl" />,
     },
+
     {
       link: "/reports",
       name: "Forensic Reports",

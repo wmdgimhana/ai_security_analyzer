@@ -20,6 +20,7 @@ backend/venv/
 backend/.env
 backend/.env.*
 backend/data/*.BIN
+backend/reports/*.json
 
 # === IDEs and Editors ===
 .vscode/

@@ -18,19 +18,28 @@ const Analyzer = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [animateResults, setAnimateResults] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null); // New state to store the selected file
 
-  const handleFileUpload = async (e) => {
+  const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    setSelectedFile(file); // Store the file in state
     setFileName(file.name);
+    setLogData(null); // Clear previous results
+    setError(null);
+  };
+
+  const handleAnalyze = async () => {
+    if (!selectedFile) return; // Only analyze if a file is selected
+
     setIsAnalyzing(true);
     setAnimateResults(false);
     setError(null);
 
     try {
       // Analyze the uploaded file using the API
-      const result = await analyzeLogFile(file);
+      const result = await analyzeLogFile(selectedFile);
 
       setLogData(result);
       setIsAnalyzing(false);
@@ -100,10 +109,10 @@ const Analyzer = () => {
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
           <h1 className="text-5xl poppins-bold font-bold mb-4 bg-gradient-to-r from-[#dd6317] via-orange-400 to-amber-300 bg-clip-text text-transparent leading-normal pb-1">
-            Log File Analyzer
+            Basic Log File Analyzer
           </h1>
           <p className="text-gray-400 text-lg poppins-light">
-            Advanced AI-powered security analysis
+            AI-powered security analysis
           </p>
         </div>
 
@@ -151,6 +160,25 @@ const Analyzer = () => {
               </div>
             )}
           </div>
+
+          {/* New Run Analysis Button */}
+          <button
+            className="px-6 py-3 bg-gradient-to-r from-[#dd6317] cursor-pointer to-orange-500 rounded-lg text-white font-semibold hover:from-orange-500 hover:to-[#dd6317] transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={handleAnalyze}
+            disabled={!selectedFile || isAnalyzing}
+          >
+            {isAnalyzing ? (
+              <>
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <span>Analyzing...</span>
+              </>
+            ) : (
+              <>
+                <FiShield />
+                <span>Run Analysis</span>
+              </>
+            )}
+          </button>
         </div>
 
         {/* Error Display */}
@@ -171,7 +199,7 @@ const Analyzer = () => {
         {/* Loading Animation */}
         {isAnalyzing && (
           <div className="mb-12 animate-fade-in">
-            <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl">
+            <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl">
               <div className="flex flex-col items-center gap-6">
                 <div className="relative">
                   <div className="w-16 h-16 border-4 border-[#dd6317]/30 border-t-[#dd6317] rounded-full animate-spin"></div>
@@ -198,7 +226,7 @@ const Analyzer = () => {
             }`}
           >
             {/* Threats Section */}
-            <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+            <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
                 <FiAlertTriangle className="text-2xl text-[#dd6317]" />
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -255,7 +283,7 @@ const Analyzer = () => {
             </div>
 
             {/* AI Analysis Section */}
-            <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+            <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-gradient-to-r from-[#dd6317] to-orange-500 rounded-lg">
                   <FiShield className="text-xl text-white" />
@@ -277,7 +305,7 @@ const Analyzer = () => {
             </div>
 
             {/* Metadata Section */}
-            <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+            <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
               <div className="flex items-center gap-3 mb-6">
                 <FiFileText className="text-2xl text-[#dd6317]" />
                 <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">

@@ -150,19 +150,48 @@ class ReportGeneratorService:
     
     def _extract_executive_summary(self, ai_analysis: str) -> str:
         """Extract executive summary from AI analysis"""
-        # Look for "Executive Summary" section
-        if "Executive Summary:" in ai_analysis:
-            parts = ai_analysis.split("Executive Summary:")
-            if len(parts) > 1:
-                summary_part = parts[1].split("\n\n")[0].strip()
-                return summary_part
+        # Look for various formats of "Executive Summary" section
+        possible_patterns = [
+            "1. Executive Summary:", 
+            "1) Executive Summary:", 
+            "Executive Summary:",
+            "1. Executive Summary",
+            "Executive Summary"
+        ]
         
-        # If no explicit section, take the first paragraph
+        for pattern in possible_patterns:
+            if pattern in ai_analysis:
+                parts = ai_analysis.split(pattern)
+                if len(parts) > 1:
+                    # Extract the summary text until the next section or double newline
+                    summary_text = parts[1].strip()
+                    
+                    # Look for the next section header which might start with a number
+                    next_section_patterns = [
+                        "\n2.", "\n2)", 
+                        "\nThreat Analysis:", "\n2. Threat Analysis",
+                        "\nRisk Assessment:", "\n3. Risk Assessment",
+                        "\n\n"
+                    ]
+                    
+                    for next_pattern in next_section_patterns:
+                        if next_pattern in summary_text:
+                            summary_text = summary_text.split(next_pattern)[0].strip()
+                            break
+                    
+                    # If we found a non-empty summary, return it
+                    if summary_text and not summary_text.isspace():
+                        return summary_text
+        
+        # If no explicit section found or extraction failed, take the first paragraph
         paragraphs = ai_analysis.split("\n\n")
-        if paragraphs:
-            return paragraphs[0].strip()
+        for paragraph in paragraphs:
+            paragraph = paragraph.strip()
+            if paragraph and not paragraph.startswith("#") and len(paragraph) > 20:
+                return paragraph
         
-        return "No executive summary available."
+        # Fallback to a default message if no suitable text found
+        return "Analysis of the log data indicates potential security concerns. Please review the key findings and recommendations for more details."
     
     def _count_countries(self, enriched_ips) -> Dict[str, int]:
         """Count IPs by country"""
