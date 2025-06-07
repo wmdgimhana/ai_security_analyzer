@@ -1,0 +1,182 @@
+{
+  "report_id": "83d7a5d0-ec38-4e72-bcfc-adeeb592a3a9",
+  "generated_at": "2025-06-07T13:12:44.792609",
+  "executive_summary": "**Executive Summary**",
+  "key_findings": [
+    "**SQL Injection Attempt**: 198.51.100.100 - \"GET /index.php?id=1' OR '1'='1 HTTP/1.1\" (sqlmap/1.5 user agent) - This is a clear attempt to inject malicious SQL code, exploiting a potential vulnerability in the application.",
+    "**Path Traversal Attempt**: 10.0.0.2 - \"GET /?file=../../../../etc/passwd HTTP/1.1\" (Mozilla/5.0 user agent) - This request tries to access sensitive system files, potentially revealing sensitive information.",
+    "**Brute-Force Login Attempts**: 172.16.0.12 - \"POST /login HTTP/1.1\" (Mozilla/5.0force login attempts with 401 responses) - Three consecutive failed login attempts from the same IP, indicating a potential brute-force attack.",
+    "**Suspicious File Upload**: 203.0.113.77 - \"POST /upload HTTP/1.1\" (Python-requests/2.25 user agent) - This request may be related to a file upload vulnerability or a malicious file upload attempt.",
+    "Coordinated attack: The SQL injection attempt and path traversal attempt within a short time frame suggest a coordinated attack or a scanning attempt to identify vulnerabilities.",
+    "Scanning attempts: The path traversal attempt and the SQL injection attempt may be part of a larger scanning effort to discover vulnerabilities.",
+    "Brute-force pattern: The three consecutive failed login attempts from the same IP indicate a brute-force attack pattern."
+  ],
+  "threat_actors": [],
+  "indicators_of_compromise": [
+    {
+      "type": "SQL_INJECTION",
+      "indicator": "Detected use of SQL injection pattern on /index.php endpoint using sqlmap tool",
+      "severity": "HIGH"
+    },
+    {
+      "type": "DIRECTORY_TRAVERSAL",
+      "indicator": "Detected attempt to access /etc/passwd file using directory traversal",
+      "severity": "MEDIUM"
+    },
+    {
+      "type": "BRUTE_FORCE",
+      "indicator": "Detected brute-force login attempts on /login endpoint",
+      "severity": "MEDIUM"
+    },
+    {
+      "type": "SUSPICIOUS_AGENT",
+      "indicator": "Detected use of Python-requests and sqlmap agents",
+      "severity": "LOW"
+    }
+  ],
+  "attack_timeline": [
+    {
+      "timestamp": "2025-06-04T12:00:00",
+      "event_type": "INFO",
+      "severity": "LOW",
+      "source_ip": "198.51.100.100",
+      "target": "/index.php?id=1' OR '1'='1 HTTP/1.1",
+      "description": "198.51.100.100 - - [04/Jun/2025:12:00:00 +0000] \"GET /index.php?id=1' OR '1'='1 HTTP/1.1\" 200 532 \"-\" \"sqlmap/1.5\""
+    },
+    {
+      "timestamp": "2025-06-04T12:01:10",
+      "event_type": "INFO",
+      "severity": "LOW",
+      "source_ip": "10.0.0.2",
+      "target": "/?file=../../../../etc/passwd HTTP/1.1",
+      "description": "10.0.0.2 - - [04/Jun/2025:12:01:10 +0000] \"GET /?file=../../../../etc/passwd HTTP/1.1\" 200 1032 \"-\" \"Mozilla/5.0\""
+    },
+    {
+      "timestamp": "2025-06-04T12:02:30",
+      "event_type": "INFO",
+      "severity": "LOW",
+      "source_ip": "172.16.0.12",
+      "target": "/login HTTP/1.1",
+      "description": "172.16.0.12 - - [04/Jun/2025:12:02:30 +0000] \"POST /login HTTP/1.1\" 401 321 \"-\" \"Mozilla/5.0\""
+    },
+    {
+      "timestamp": "2025-06-04T12:02:32",
+      "event_type": "INFO",
+      "severity": "LOW",
+      "source_ip": "172.16.0.12",
+      "target": "/login HTTP/1.1",
+      "description": "172.16.0.12 - - [04/Jun/2025:12:02:32 +0000] \"POST /login HTTP/1.1\" 401 321 \"-\" \"Mozilla/5.0\""
+    },
+    {
+      "timestamp": "2025-06-04T12:02:34",
+      "event_type": "INFO",
+      "severity": "LOW",
+      "source_ip": "172.16.0.12",
+      "target": "/login HTTP/1.1",
+      "description": "172.16.0.12 - - [04/Jun/2025:12:02:34 +0000] \"POST /login HTTP/1.1\" 401 321 \"-\" \"Mozilla/5.0\""
+    },
+    {
+      "timestamp": "2025-06-04T12:03:50",
+      "event_type": "INFO",
+      "severity": "LOW",
+      "source_ip": "203.0.113.77",
+      "target": "/upload HTTP/1.1",
+      "description": "203.0.113.77 - - [04/Jun/2025:12:03:50 +0000] \"POST /upload HTTP/1.1\" 200 800 \"-\" \"Python-requests/2.25\""
+    }
+  ],
+  "framework_mapping": {
+    "mitre_techniques": [
+      {
+        "technique_id": "T1110",
+        "name": "Brute Force",
+        "description": "Adversaries may use brute force techniques to gain access to accounts when passwords are unknown or when password hashes are obtained.",
+        "url": "https://attack.mitre.org/techniques/T1110/",
+        "severity": "HIGH",
+        "confidence": 0.85
+      },
+      {
+        "technique_id": "T1190",
+        "name": "Upload Malicious File",
+        "description": "Adversaries may attempt to exploit vulnerabilities in public-facing applications to gain access to systems.",
+        "url": "https://attack.mitre.org/techniques/T1190/",
+        "severity": "MEDIUM",
+        "confidence": 0.8
+      }
+    ],
+    "owasp_vulnerabilities": [
+      {
+        "owasp_id": "A03:2021",
+        "name": "Injection",
+        "description": "Injection flaws occur when untrusted data is sent to an interpreter as part of a command or query.",
+        "url": "https://owasp.org/Top10/A03_2021-Injection/",
+        "severity": "HIGH",
+        "confidence": 0.5
+      },
+      {
+        "owasp_id": "A05:2021",
+        "name": "Broken Access Control",
+        "description": "Security misconfiguration is the most commonly seen issue, often resulting from insecure default configurations or incomplete configurations.",
+        "url": "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/",
+        "severity": "HIGH",
+        "confidence": 0.9
+      },
+      {
+        "owasp_id": "A07:2021",
+        "name": "Identification and Authentication Failures",
+        "description": "Authentication failures can allow attackers to assume other users' identities.",
+        "url": "https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/",
+        "severity": "HIGH",
+        "confidence": 0.85
+      }
+    ]
+  },
+  "affected_systems": [],
+  "recommendations": [
+    {
+      "title": "Mitigate Brute Force",
+      "description": "Implement controls to prevent T1110: Brute Force",
+      "priority": "HIGH",
+      "reference": "https://attack.mitre.org/techniques/T1110/"
+    },
+    {
+      "title": "Mitigate Upload Malicious File",
+      "description": "Implement controls to prevent T1190: Upload Malicious File",
+      "priority": "MEDIUM",
+      "reference": "https://attack.mitre.org/techniques/T1190/"
+    },
+    {
+      "title": "Fix Injection",
+      "description": "Address A03:2021: Injection vulnerability",
+      "priority": "HIGH",
+      "reference": "https://owasp.org/Top10/A03_2021-Injection/"
+    },
+    {
+      "title": "Fix Broken Access Control",
+      "description": "Address A05:2021: Broken Access Control vulnerability",
+      "priority": "HIGH",
+      "reference": "https://owasp.org/Top10/A05_2021-Security_Misconfiguration/"
+    },
+    {
+      "title": "Fix Identification and Authentication Failures",
+      "description": "Address A07:2021: Identification and Authentication Failures vulnerability",
+      "priority": "HIGH",
+      "reference": "https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/"
+    }
+  ],
+  "technical_details": {
+    "log_size": 622,
+    "line_count": 6,
+    "unique_ips": 4,
+    "threat_count": 4,
+    "timeline_event_count": 6,
+    "geographic_distribution": {
+      "-": 4
+    },
+    "attack_types": {
+      "SQL_INJECTION": 1,
+      "DIRECTORY_TRAVERSAL": 1,
+      "BRUTE_FORCE": 3,
+      "SUSPICIOUS_AGENT": 2
+    }
+  }
+}

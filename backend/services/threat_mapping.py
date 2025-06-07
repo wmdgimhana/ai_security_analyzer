@@ -90,40 +90,42 @@ class ThreatMappingService:
         threat_info = "\n".join([f"- {t.type} (Severity: {t.severity}): {t.description}" for t in threats])
         
         prompt = f"""
-        You are a cybersecurity expert specializing in threat classification frameworks.
-        
-        Based on the following detected threats and log sample, identify which MITRE ATT&CK techniques 
-        and OWASP Top 10 vulnerabilities are most relevant.
-        
-        DETECTED THREATS:
-        {threat_info}
-        
-        LOG SAMPLE:
-        {log_sample[:2000]}  # Limit sample size
-        
-        Return your analysis as a JSON object with this structure:
+You are a cybersecurity threat analyst. Given the following web server log entries, identify possible attack patterns, then map them to the appropriate MITRE ATT&CK techniques and OWASP Top 10 vulnerabilities.
+
+LOG SAMPLE:
+{log_sample[:2000]}
+
+Instructions:
+1. Analyze each line to detect attacks (e.g., SQL injection, file inclusion, brute force).
+2. If a known attack is found, map it to:
+    - MITRE ATT&CK technique ID (like T1110)
+    - OWASP Top 10 vulnerability ID (like A03:2021)
+3. For each mapping, provide:
+    - ID, name, severity, and confidence score (0.0–1.0)
+
+Output JSON structure:
+{{
+    "mitre_techniques": [
         {{
-            "mitre_techniques": [
-                {{
-                    "technique_id": "T1110",  # Must be a valid MITRE technique ID
-                    "name": "Brute Force",
-                    "confidence": 0.85,  # 0.0 to 1.0
-                    "severity": "HIGH"  # LOW, MEDIUM, HIGH, CRITICAL
-                }}
-            ],
-            "owasp_vulnerabilities": [
-                {{
-                    "owasp_id": "A07:2021",  # Must be a valid OWASP ID
-                    "name": "Identification and Authentication Failures",
-                    "confidence": 0.9,  # 0.0 to 1.0
-                    "severity": "HIGH"  # LOW, MEDIUM, HIGH, CRITICAL
-                }}
-            ]
+            "technique_id": "T1110",
+            "name": "Brute Force",
+            "confidence": 0.85,
+            "severity": "HIGH"
         }}
-        
-        Only include techniques and vulnerabilities that are clearly evidenced in the threats or logs.
-        Provide confidence scores based on how certain you are of the mapping.
-        """
+    ],
+    "owasp_vulnerabilities": [
+        {{
+            "owasp_id": "A07:2021",
+            "name": "Identification and Authentication Failures",
+            "confidence": 0.9,
+            "severity": "HIGH"
+        }}
+    ]
+}}
+
+Only include entries with high certainty based on log patterns.
+"""
+
         
         try:
             response = self.ai.invoke(prompt)

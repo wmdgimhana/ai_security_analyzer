@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { FiUploadCloud, FiGlobe, FiAlertTriangle, FiMapPin } from "react-icons/fi";
+import {
+  FiUploadCloud,
+  FiGlobe,
+  FiAlertTriangle,
+  FiMapPin,
+} from "react-icons/fi";
 import { enrichIpsFromLogs } from "../../functions/logAnalyzer";
 
 const IpEnrichment = () => {
@@ -52,10 +57,10 @@ const IpEnrichment = () => {
           <div className="relative z-10 max-w-6xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12 animate-fade-in">
-              <h1 className="text-5xl poppins-bold font-bold mb-4 bg-gradient-to-r from-[#dd6317] via-orange-400 to-amber-300 bg-clip-text text-transparent leading-normal pb-1">
+              <h1 className="text-5xl poppins-bold font-bold mb-4 bg-gradient-to-r from-[#dd6317] via-orange-400 to-amber-300 bg-clip-text text-transparent leading-normal pb-1 ">
                 IP Enrichment
               </h1>
-              <p className="text-gray-400 text-lg poppins-light">
+              <p className="text-gray-400 text-lg poppins-light ">
                 Extract and analyze IP addresses from log files
               </p>
             </div>
@@ -68,7 +73,7 @@ const IpEnrichment = () => {
                   Enter Log Content
                 </h2>
               </div>
-              
+
               <textarea
                 className="w-full h-64 bg-black/20 text-white p-4 rounded-xl border border-white/10 focus:outline-none focus:border-[#dd6317]/50 transition-all duration-300 poppins-light"
                 placeholder="Paste your log content here..."
@@ -76,7 +81,7 @@ const IpEnrichment = () => {
                 onChange={(e) => setLogContent(e.target.value)}
                 disabled={isAnalyzing}
               />
-              
+
               <div className="mt-4 flex justify-end">
                 <button
                   className="px-6 py-3 bg-gradient-to-r from-[#dd6317] to-orange-500 rounded-lg text-white font-semibold hover:from-orange-500 hover:to-[#dd6317] transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -116,7 +121,11 @@ const IpEnrichment = () => {
             {/* Results Section */}
             {enrichmentData && !isAnalyzing && (
               <div
-                className={`space-y-8 transition-all duration-1000 ${animateResults ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                className={`space-y-8 transition-all duration-1000 ${
+                  animateResults
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
               >
                 <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                   <div className="flex items-center gap-3 mb-6">
@@ -125,27 +134,40 @@ const IpEnrichment = () => {
                       IP Enrichment Results
                     </h2>
                   </div>
-                  
+
                   <div className="mb-4 p-4 bg-black/20 rounded-xl border border-white/10">
                     <div className="flex justify-between items-center">
                       <div className="text-gray-300 poppins-medium">
-                        <span className="text-[#dd6317]">Total IPs Detected:</span> {enrichmentData.ip_count || 0}
+                        <span className="text-[#dd6317]">
+                          Total IPs Detected:
+                        </span>{" "}
+                        {enrichmentData.ip_count || 0}
                       </div>
                       <div className="text-gray-300 poppins-medium">
-                        <span className="text-[#dd6317]">Analysis Time:</span> {new Date(enrichmentData.analysis_time).toLocaleString()}
+                        <span className="text-[#dd6317]">Analysis Time:</span>{" "}
+                        {new Date(
+                          enrichmentData.analysis_time
+                        ).toLocaleString()}
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-6">
-                    {enrichmentData.enriched_ips && enrichmentData.enriched_ips.length > 0 ? (
+                    {enrichmentData.enriched_ips &&
+                    enrichmentData.enriched_ips.length > 0 ? (
                       enrichmentData.enriched_ips.map((ip, index) => (
                         <div
                           key={index}
-                          className={`p-6 rounded-xl bg-gradient-to-br ${ip.geo_data.is_threat ? "from-red-500/10 to-red-600/20 border-red-500/30" : "from-blue-500/10 to-blue-600/20 border-blue-500/30"} border backdrop-blur-sm transform transition-all duration-500 hover:scale-[1.02] hover:shadow-lg`}
+                          className={`p-6 rounded-xl bg-gradient-to-br ${
+                            ip.geo_data.is_threat
+                              ? "from-red-500/10 to-red-600/20 border-red-500/30"
+                              : "from-blue-500/10 to-blue-600/20 border-blue-500/30"
+                          } border backdrop-blur-sm transform transition-all duration-500 hover:scale-[1.02] hover:shadow-lg`}
                           style={{
                             animationDelay: `${index * 200}ms`,
-                            animation: animateResults ? "slideInLeft 0.6s ease-out forwards" : "none",
+                            animation: animateResults
+                              ? "slideInLeft 0.6s ease-out forwards"
+                              : "none",
                           }}
                         >
                           <div className="flex flex-col md:flex-row md:items-center justify-between mb-3 gap-4">
@@ -161,55 +183,89 @@ const IpEnrichment = () => {
                               </div>
                               <div className="text-gray-400 text-sm flex items-center gap-1 mt-1">
                                 <FiMapPin className="text-gray-500" />
-                                {ip.geo_data.city ? `${ip.geo_data.city}, ${ip.geo_data.country}` : ip.geo_data.country || "Location Unknown"}
+                                {ip.geo_data.city
+                                  ? `${ip.geo_data.city}, ${ip.geo_data.country}`
+                                  : ip.geo_data.country || "Location Unknown"}
                               </div>
                             </div>
-                            
+
                             <div className="flex items-center gap-3">
                               <div className="text-center px-3 py-2 bg-black/30 rounded-lg border border-white/5">
-                                <div className="text-xs text-gray-400">Occurrences</div>
-                                <div className="text-lg font-bold text-white">{ip.occurrences}</div>
+                                <div className="text-xs text-gray-400">
+                                  Occurrences
+                                </div>
+                                <div className="text-lg font-bold text-white">
+                                  {ip.occurrences}
+                                </div>
                               </div>
-                              
+
                               <div className="text-center px-3 py-2 bg-black/30 rounded-lg border border-white/5">
-                                <div className="text-xs text-gray-400">Threat Score</div>
-                                <div className={`text-lg font-bold ${getThreatColor(ip.geo_data.threat_score)}`}>
-                                  {ip.geo_data.threat_score !== undefined ? ip.geo_data.threat_score : "N/A"}
+                                <div className="text-xs text-gray-400">
+                                  Threat Score
+                                </div>
+                                <div
+                                  className={`text-lg font-bold ${getThreatColor(
+                                    ip.geo_data.threat_score
+                                  )}`}
+                                >
+                                  {ip.geo_data.threat_score !== undefined
+                                    ? ip.geo_data.threat_score
+                                    : "N/A"}
                                 </div>
                               </div>
                             </div>
                           </div>
-                          
+
                           {ip.geo_data.isp && (
                             <div className="mb-3 text-sm">
-                              <span className="text-gray-400">ISP:</span> <span className="text-gray-300">{ip.geo_data.isp}</span>
+                              <span className="text-gray-400">ISP:</span>{" "}
+                              <span className="text-gray-300">
+                                {ip.geo_data.isp}
+                              </span>
                             </div>
                           )}
-                          
+
                           {ip.geo_data.threat_type && (
                             <div className="mb-3 text-sm">
-                              <span className="text-gray-400">Threat Type:</span> <span className="text-red-300">{ip.geo_data.threat_type}</span>
+                              <span className="text-gray-400">
+                                Threat Type:
+                              </span>{" "}
+                              <span className="text-red-300">
+                                {ip.geo_data.threat_type}
+                              </span>
                             </div>
                           )}
-                          
-                          {ip.associated_events && ip.associated_events.length > 0 && (
-                            <div className="mt-4">
-                              <div className="text-sm font-semibold text-gray-300 mb-2">Associated Events:</div>
-                              <div className="max-h-32 overflow-y-auto bg-black/20 rounded-lg border border-white/5 p-3">
-                                <ul className="space-y-1">
-                                  {ip.associated_events.map((event, eventIndex) => (
-                                    <li key={eventIndex} className="text-xs text-gray-400 truncate">{event}</li>
-                                  ))}
-                                </ul>
+
+                          {ip.associated_events &&
+                            ip.associated_events.length > 0 && (
+                              <div className="mt-4">
+                                <div className="text-sm font-semibold text-gray-300 mb-2">
+                                  Associated Events:
+                                </div>
+                                <div className="max-h-32 overflow-y-auto bg-black/20 rounded-lg border border-white/5 p-3">
+                                  <ul className="space-y-1">
+                                    {ip.associated_events.map(
+                                      (event, eventIndex) => (
+                                        <li
+                                          key={eventIndex}
+                                          className="text-xs text-gray-400 truncate"
+                                        >
+                                          {event}
+                                        </li>
+                                      )
+                                    )}
+                                  </ul>
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
                         </div>
                       ))
                     ) : (
                       <div className="text-center py-8 text-gray-400">
                         <FiGlobe className="text-4xl mx-auto mb-3 text-blue-400" />
-                        <p className="text-lg">No IP addresses detected in the log content</p>
+                        <p className="text-lg">
+                          No IP addresses detected in the log content
+                        </p>
                       </div>
                     )}
                   </div>

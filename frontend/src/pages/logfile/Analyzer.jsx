@@ -100,10 +100,10 @@ const Analyzer = () => {
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
           <h1 className="text-5xl poppins-bold font-bold mb-4 bg-gradient-to-r from-[#dd6317] via-orange-400 to-amber-300 bg-clip-text text-transparent leading-normal pb-1">
-            Log File Analyzer
+            Basic Log File Analyzer
           </h1>
           <p className="text-gray-400 text-lg poppins-light">
-            Advanced AI-powered security analysis
+            AI-powered security analysis
           </p>
         </div>
 

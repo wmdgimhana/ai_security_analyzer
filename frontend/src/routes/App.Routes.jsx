@@ -6,7 +6,7 @@ import IpEnrichment from "../pages/ip-enrichment/IpEnrichment";
 import FrameworkMapping from "../pages/framework-mapping/FrameworkMapping";
 import ComprehensiveAnalysis from "../pages/comprehensive/ComprehensiveAnalysis";
 import ForensicReports from "../pages/reports/ForensicReports";
-// import ReportDetail from "../pages/reports/ReportDetail";
+import ReportDetail from "../pages/reports/ReportDetail";
 
 export default function AppRoutes() {
   return (
@@ -17,7 +17,7 @@ export default function AppRoutes() {
       <Route path="/framework-mapping" element={<FrameworkMapping />} />
       <Route path="/comprehensive" element={<ComprehensiveAnalysis />} />
       <Route path="/reports" element={<ForensicReports />} />
-      {/* <Route path="/reports/:reportId" element={<ReportDetail />} /> */}
+      <Route path="/reports/:reportId" element={<ReportDetail />} />
     </Routes>
   );
 }
