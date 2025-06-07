@@ -51,14 +51,14 @@ Make sure you have Python and Node.js installed.
 
 Backend (Python FastAPI)
 
-cd backend
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-pip install -r requirements.txt
-uvicorn main:app --reload
+-cd backend
+-python -m venv venv
+-source venv/bin/activate  # or venv\Scripts\activate on Windows
+-pip install -r requirements.txt
+-python run.py
 
 Frontend (React)
 
-cd frontend
-yarn
-yarn run dev
+-cd frontend
+-yarn
+-yarn run dev
