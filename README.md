@@ -1,4 +1,4 @@
-# 🔐 AI-Powered Cyber Forensic Tool
+# 🔐 AI-Powered Log Analysis Tool
 
 This is an AI-powered web application for analyzing server logs and detecting potential security threats. The system uses AI to identify common attack patterns (like SQL Injection, XSS, and Brute Force) and maps them to standard frameworks such as MITRE ATT&CK and OWASP Top 10.
 
