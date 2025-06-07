@@ -144,7 +144,7 @@ const ReportDetail = () => {
             {report && !loading && (
               <div className="space-y-8">
                 {/* Report Header */}
-                <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
                     <div>
                       <div className="flex items-center gap-2 mb-2">
@@ -190,7 +190,7 @@ const ReportDetail = () => {
                 </div>
 
                 {/* Key Findings */}
-                <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                   <div className="flex items-center gap-3 mb-6">
                     <FiAlertTriangle className="text-2xl text-[#dd6317]" />
                     <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -215,7 +215,7 @@ const ReportDetail = () => {
 
                 {/* Threat Actors */}
                 {report.threat_actors && report.threat_actors.length > 0 && (
-                  <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                  <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                     <div className="flex items-center gap-3 mb-6">
                       <FiUsers className="text-2xl text-[#dd6317]" />
                       <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -313,7 +313,7 @@ const ReportDetail = () => {
                 {/* Attack Timeline */}
                 {report.attack_timeline &&
                   report.attack_timeline.length > 0 && (
-                    <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                    <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                       <div className="flex items-center gap-3 mb-6">
                         <FiClock className="text-2xl text-[#dd6317]" />
                         <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -350,7 +350,7 @@ const ReportDetail = () => {
                 {/* Recommendations */}
                 {report.recommendations &&
                   report.recommendations.length > 0 && (
-                    <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                    <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                       <div className="flex items-center gap-3 mb-6">
                         <FiLock className="text-2xl text-[#dd6317]" />
                         <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -434,7 +434,7 @@ const ReportDetail = () => {
                 {/* Affected Systems */}
                 {report.affected_systems &&
                   report.affected_systems.length > 0 && (
-                    <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                    <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                       <div className="flex items-center gap-3 mb-6">
                         <FiServer className="text-2xl text-[#dd6317]" />
                         <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">

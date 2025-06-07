@@ -112,40 +112,6 @@ export const getApiInfo = async () => {
 };
 
 /**
- * Extract and enrich IP addresses from log content
- * @param {string} logContent - The log content to analyze
- * @returns {Promise<Object>} IP enrichment response
- */
-export const enrichIpsFromLogs = async (logContent) => {
-  try {
-    const response = await apiClient.post("/enrich/ips", {
-      log_content: logContent,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error enriching IPs:", error);
-    throw error;
-  }
-};
-
-/**
- * Map detected threats to security frameworks
- * @param {string} logContent - The log content to analyze
- * @returns {Promise<Object>} Framework mapping response
- */
-export const mapToSecurityFrameworks = async (logContent) => {
-  try {
-    const response = await apiClient.post("/map/frameworks", {
-      log_content: logContent,
-    });
-    return response.data;
-  } catch (error) {
-    console.error("Error mapping to frameworks:", error);
-    throw error;
-  }
-};
-
-/**
  * Generate data for visual dashboard
  * @param {string} logContent - The log content to analyze
  * @returns {Promise<Object>} Dashboard data response

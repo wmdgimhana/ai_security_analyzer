@@ -30,16 +30,6 @@ const Sidebar = () => {
       name: "Comprehensive Analysis",
       icon: <FiBarChart2 className="text-xl" />,
     },
-    {
-      link: "/ip-enrichment",
-      name: "IP Enrichment",
-      icon: <FiGlobe className="text-xl" />,
-    },
-    {
-      link: "/framework-mapping",
-      name: "Security Frameworks",
-      icon: <FiShield className="text-xl" />,
-    },
 
     {
       link: "/reports",

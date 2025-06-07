@@ -101,7 +101,7 @@ const ForensicReports = () => {
                     key={report.report_id}
                     className="block"
                   >
-                    <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-6 border border-[#7e4f31]/30 shadow-xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
+                    <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-6 border border-[#7e4f31]/30 shadow-xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
                       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
                           <div className="flex items-center gap-2 mb-2">

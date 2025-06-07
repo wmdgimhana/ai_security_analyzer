@@ -205,6 +205,7 @@ async def generate_forensic_report(request: LogAnalysisRequest):
         log_sample = log_content[:6000] if len(log_content) > 6000 else log_content
         ai_analysis = log_analyzer.get_ai_analysis(log_sample)
         
+        
         # Generate report
         report = await report_generator.generate_forensic_report(log_content, threats, ai_analysis)
         
@@ -270,7 +271,7 @@ async def get_api_info():
     """Get information about the AI analyzer capabilities"""
     return {
         "service": "AI Log Security Analyzer",
-        "version": "2.1.0",  # Updated version
+        "version": "1.0.0",  # Updated version
         "ai_powered": True,
         "threat_detection": {
             "method": "AI-based pattern recognition",
@@ -306,7 +307,7 @@ async def get_api_info():
             "Automated security recommendations"  # New feature
         ],
         "supported_formats": [".log", ".txt", ".json"],
-        "ai_model": "Powered by Groq AI"
+        "ai_model": "Powered by Llama 3"
     }
 
 @app.post("/analyze/comprehensive", response_model=None)

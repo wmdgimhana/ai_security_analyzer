@@ -11,6 +11,7 @@ import {
   FiUsers,
   FiLock,
   FiMapPin,
+  FiExternalLink,
 } from "react-icons/fi";
 import { comprehensiveAnalysis } from "../../functions/logAnalyzer";
 import {
@@ -122,14 +123,7 @@ const ComprehensiveAnalysis = () => {
             </div>
 
             {/* File Upload Section */}
-            <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm mb-8">
-              <div className="flex items-center gap-3 mb-6">
-                <FiUploadCloud className="text-2xl text-[#dd6317]" />
-                <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
-                  Upload Log File
-                </h2>
-              </div>
-
+            <div className="pt-[90px]">
               <div className="flex flex-col items-center justify-center py-6">
                 <div className="input-div mb-4">
                   <input
@@ -159,7 +153,7 @@ const ComprehensiveAnalysis = () => {
                   </svg>
                 </div>
 
-                <div className="text-center mb-4">
+                <div className="text-center mb-4 mt-[50px]">
                   <span className="text-xl text-white font-medium">
                     {fileName || "Click to upload your log file"}
                   </span>
@@ -169,7 +163,7 @@ const ComprehensiveAnalysis = () => {
                 </div>
 
                 <button
-                  className="px-6 py-3 bg-gradient-to-r from-[#dd6317] to-orange-500 rounded-lg text-white font-semibold hover:from-orange-500 hover:to-[#dd6317] transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 bg-gradient-to-r from-[#dd6317] to-orange-500 rounded-lg cursor-pointer text-white font-semibold hover:from-orange-500 hover:to-[#dd6317] transition-all duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mt-[30px]"
                   onClick={handleAnalyze}
                   disabled={!file || isAnalyzing}
                 >
@@ -206,7 +200,7 @@ const ComprehensiveAnalysis = () => {
             {/* Loading Animation */}
             {isAnalyzing && (
               <div className="mb-12 animate-fade-in">
-                <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl">
+                <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl">
                   <div className="flex flex-col items-center gap-6">
                     <div className="relative">
                       <div className="w-16 h-16 border-4 border-[#dd6317]/30 border-t-[#dd6317] rounded-full animate-spin"></div>
@@ -234,7 +228,7 @@ const ComprehensiveAnalysis = () => {
                 }`}
               >
                 {/* Executive Summary */}
-                <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                   <div className="flex items-center gap-3 mb-6">
                     <div className="p-2 bg-gradient-to-r from-[#dd6317] to-orange-500 rounded-lg">
                       <FiShield className="text-xl text-white" />
@@ -253,7 +247,7 @@ const ComprehensiveAnalysis = () => {
 
                 {/* Dashboard Data Section */}
                 {analysisData.dashboard_data && (
-                  <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                  <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                     <div className="flex items-center gap-3 mb-6">
                       <FiBarChart2 className="text-2xl text-[#dd6317]" />
                       <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -412,7 +406,7 @@ const ComprehensiveAnalysis = () => {
                 )}
 
                 {/* Threats Section */}
-                <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                   <div className="flex items-center gap-3 mb-6">
                     <FiAlertTriangle className="text-2xl text-[#dd6317]" />
                     <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -471,7 +465,7 @@ const ComprehensiveAnalysis = () => {
                 {/* Threat Actors Section */}
                 {analysisData.threat_actors &&
                   analysisData.threat_actors.length > 0 && (
-                    <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                    <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                       <div className="flex items-center gap-3 mb-6">
                         <FiUsers className="text-2xl text-[#dd6317]" />
                         <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -567,7 +561,7 @@ const ComprehensiveAnalysis = () => {
 
                 {/* Framework Mapping Section */}
                 {analysisData.security_frameworks && (
-                  <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                  <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="p-2 bg-gradient-to-r from-blue-500/20 to-blue-600/30 rounded-lg">
                         <FiShield className="text-xl text-blue-400" />
@@ -612,6 +606,15 @@ const ComprehensiveAnalysis = () => {
                                       {Math.round(technique.confidence * 100)}%
                                     </div>
                                   </div>
+
+                                  <a
+                                    href={technique.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 bg-blue-500/20 text-blue-400 rounded-lg border border-blue-500/30 hover:bg-blue-500/30 transition-all duration-300"
+                                  >
+                                    <FiExternalLink />
+                                  </a>
                                 </div>
                               </div>
                             </div>
@@ -659,6 +662,15 @@ const ComprehensiveAnalysis = () => {
                                       {Math.round(vuln.confidence * 100)}%
                                     </div>
                                   </div>
+
+                                  <a
+                                    href={vuln.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 bg-purple-500/20 text-purple-400 rounded-lg border border-purple-500/30 hover:bg-purple-500/30 transition-all duration-300"
+                                  >
+                                    <FiExternalLink />
+                                  </a>
                                 </div>
                               </div>
                             </div>
@@ -676,7 +688,7 @@ const ComprehensiveAnalysis = () => {
                 {/* Recommendations Section */}
                 {analysisData.recommendations &&
                   analysisData.recommendations.length > 0 && (
-                    <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                    <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                       <div className="flex items-center gap-3 mb-6">
                         <FiLock className="text-2xl text-[#dd6317]" />
                         <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -759,7 +771,7 @@ const ComprehensiveAnalysis = () => {
                 {/* IP Enrichment Section */}
                 {analysisData.ip_enrichment &&
                   analysisData.ip_enrichment.enriched_ips && (
-                    <div className="bg-gradient-to-br from-[#1e1f28] via-[#232530] to-[#1a1b26] rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl backdrop-blur-sm hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
+                    <div className="backdrop-blur-lg bg-white/2  rounded-2xl p-8 border border-[#7e4f31]/30 shadow-2xl  hover:shadow-[#dd6317]/10 hover:shadow-2xl transition-all duration-500">
                       <div className="flex items-center gap-3 mb-6">
                         <FiGlobe className="text-2xl text-[#dd6317]" />
                         <h2 className="text-2xl font-bold bg-gradient-to-r from-[#dd6317] to-orange-400 bg-clip-text text-transparent poppins-bold">
@@ -840,6 +852,29 @@ const ComprehensiveAnalysis = () => {
                                   {ip.geo_data.threat_type}
                                 </div>
                               )}
+
+                              {ip.associated_events &&
+                                ip.associated_events.length > 0 && (
+                                  <div className="mt-4">
+                                    <div className="text-sm font-semibold text-gray-300 mb-2">
+                                      Associated Events:
+                                    </div>
+                                    <div className="max-h-32 overflow-y-auto bg-black/20 rounded-lg border border-white/5 p-3">
+                                      <ul className="space-y-1">
+                                        {ip.associated_events.map(
+                                          (event, eventIndex) => (
+                                            <li
+                                              key={eventIndex}
+                                              className="text-xs text-gray-400 truncate"
+                                            >
+                                              {event}
+                                            </li>
+                                          )
+                                        )}
+                                      </ul>
+                                    </div>
+                                  </div>
+                                )}
                             </div>
                           )
                         )}
@@ -868,68 +903,6 @@ const ComprehensiveAnalysis = () => {
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes slideInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-50px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fadeIn 0.8s ease-out;
-        }
-
-        .input-div {
-          position: relative;
-          width: 200px;
-          height: 200px;
-          border: 2px dashed #dd6317;
-          border-radius: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: rgba(0, 0, 0, 0.2);
-          cursor: pointer;
-          transition: all 0.3s;
-        }
-
-        .input-div:hover {
-          background-color: rgba(221, 99, 23, 0.1);
-        }
-
-        .input {
-          opacity: 0;
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          cursor: pointer;
-        }
-
-        .icon {
-          width: 50px;
-          height: 50px;
-          color: #dd6317;
-        }
-      `}</style>
     </div>
   );
 };
