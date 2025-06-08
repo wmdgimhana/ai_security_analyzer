@@ -271,7 +271,7 @@ async def get_api_info():
     """Get information about the AI analyzer capabilities"""
     return {
         "service": "AI Log Security Analyzer",
-        "version": "1.0.0",  # Updated version
+        "version": "1.0.1",  # Updated version
         "ai_powered": True,
         "threat_detection": {
             "method": "AI-based pattern recognition",
